@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Replacement Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        }
+        .algorithm-card {
+            transition: all 0.3s ease;
+            border-top: 4px solid #3b82f6;
+        }
+        .algorithm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+    <header class="bg-blue-600 text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Page Replacement Simulator</h1>
+                <p class="text-sm opacity-90">Visualize memory management algorithms</p>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="index.html" class="font-medium hover:underline underline-offset-4">Home</a></li>
+                    <li><a href="about.html" class="font-medium hover:underline underline-offset-4">About</a></li>
+                    <li><a href="simulator.html" class="bg-blue-700 px-4 py-2 rounded-md font-medium hover:bg-blue-800 transition">Simulator</a></li>
+                </ul>
+            </nav>
+            <button class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white py-16 md:py-24">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-10 md:mb-0">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-4">Understand Page Replacement Algorithms</h1>
+                        <p class="text-xl mb-8 opacity-90">Interactive visualization of FIFO, LRU, and Enhanced Second Chance algorithms with step-by-step explanations.</p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="simulator.html" class="bg-white text-blue-600 px-6 py-3 rounded-md font-semibold text-center hover:bg-gray-100 transition">Try Simulator</a>
+                            <a href="#algorithms" class="bg-transparent border-2 border-white px-6 py-3 rounded-md font-semibold text-center hover:bg-white hover:text-blue-600 transition">Learn Algorithms</a>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center">
+                        <div class="relative w-full max-w-md">
+                            <div class="bg-white/20 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/10">
+                                <div class="flex mb-4">
+                                    <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                </div>
+                                <div class="bg-white/10 rounded-lg p-4 mb-4">
+                                    <div class="flex space-x-2 mb-3">
+                                        <div class="w-8 h-8 bg-green-200 rounded flex items-center justify-center text-gray-800 font-bold">1</div>
+                                        <div class="w-8 h-8 bg-gray-200 rounded flex items-center justify-center text-gray-800 font-bold">2</div>
+                                        <div class="w-8 h-8 bg-red-200 rounded flex items-center justify-center text-gray-800 font-bold">3</div>
+                                        <div class="w-8 h-8 bg-yellow-200 rounded flex items-center justify-center text-gray-800 font-bold">4</div>
+                                    </div>
+                                    <div class="text-sm text-white/90">
+                                        <p class="mb-1">Step 5: Page 5 requested</p>
+                                        <p>Replaced page 1 (FIFO)</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 text-center text-sm">
+                                    <div class="bg-blue-700/50 p-2 rounded">
+                                        <p>Hits: 3</p>
+                                    </div>
+                                    <div class="bg-blue-700/50 p-2 rounded">
+                                        <p>Misses: 2</p>
+                                    </div>
+                                    <div class="bg-blue-700/50 p-2 rounded">
+                                        <p>Rate: 60%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Key Features</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Interactive Visualization</h3>
+                        <p class="text-gray-600">See how pages are loaded, hit, and replaced in memory frames with color-coded animations.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Step-by-Step Mode</h3>
+                        <p class="text-gray-600">Understand each decision with detailed explanations of every replacement step.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <div class="feature-icon w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Compare Algorithms</h3>
+                        <p class="text-gray-600">See how different algorithms perform with the same reference string and frame count.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithms Section -->
+        <section id="algorithms" class="py-16 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Page Replacement Algorithms</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- FIFO Card -->
+                    <div class="algorithm-card bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-blue-100 text-blue-800 p-2 rounded-lg mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold">FIFO</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">First-In-First-Out replaces the oldest page in memory, regardless of how often it's been used.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Simple implementation with a queue</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Low overhead</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>May replace frequently used pages</span>
+                                </li>
+                            </ul>
+                            <a href="about.html#fifo" class="text-blue-600 font-medium hover:underline inline-flex items-center">
+                                Learn more
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- LRU Card -->
+                    <div class="algorithm-card bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-blue-100 text-blue-800 p-2 rounded-lg mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold">LRU</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Least Recently Used replaces the page that hasn't been accessed for the longest time.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Approximates optimal algorithm</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Better performance than FIFO</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Higher implementation overhead</span>
+                                </li>
+                            </ul>
+                            <a href="about.html#lru" class="text-blue-600 font-medium hover:underline inline-flex items-center">
+                                Learn more
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ESC Card -->
+                    <div class="algorithm-card bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-blue-100 text-blue-800 p-2 rounded-lg mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold">ESC</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Enhanced Second Chance combines FIFO with reference and modify bits for better decisions.</p>
+                            <ul class="space-y-2 mb-6">
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Considers page usage patterns</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Better than pure FIFO</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Moderate implementation complexity</span>
+                                </li>
+                            </ul>
+                            <a href="about.html#esc" class="text-blue-600 font-medium hover:underline inline-flex items-center">
+                                Learn more
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-16 bg-blue-600 text-white">
+            <div class="max-w-6xl mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold mb-6">Ready to Explore Page Replacement?</h2>
+                <p class="text-xl mb-8 max-w-3xl mx-auto opacity-90">Visualize how different algorithms handle page faults with our interactive simulator.</p>
+                <a href="simulator.html" class="bg-white text-blue-600 px-8 py-3 rounded-md font-semibold text-lg hover:bg-gray-100 transition inline-block">Launch Simulator</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-100 py-8">
+        <div class="max-w-6xl mx-auto px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div>Quick links </div>
+                <div class="flex flex-row space-x-6 text-center">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600">About</a>
+                    <a href="simulator.html" class="text-gray-700 hover:text-blue-600">Simulator</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-8 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2025 Page Replacement Simulator. Educational project for operating systems concepts.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

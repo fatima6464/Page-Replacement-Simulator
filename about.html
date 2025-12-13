@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page Replacement Algorithms</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out; }
+        .algorithm-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .algorithm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .tab-button {
+            transition: all 0.3s;
+        }
+        .tab-button.active {
+            background-color: #2563eb;
+            color: white;
+        }
+        .tab-button:not(.active):hover {
+            background-color: #dbeafe;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+    <header class="bg-blue-600 text-white py-6">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Page Replacement Simulator</h1>
+                <p class="text-sm">Understanding FIFO, LRU, and ESC Algorithms</p>
+            </div>
+            <nav>
+                <a href="index.html" class="text-white hover:underline mr-4">Home</a>
+                <a href="about.html" class="text-white font-semibold hover:underline mr-4">About</a>
+                <a href="simulator.html" class="bg-blue-700 px-4 py-2 rounded-md font-medium hover:bg-blue-800 transition">Simulator</a>
+                
+                
+            </nav>
+        </div>
+    </header>
+    
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <section class="bg-white rounded-lg shadow-sm p-6 mb-8 animate-fade-in">
+            <h2 class="text-2xl font-bold text-blue-600 mb-4">About Page Replacement Algorithms</h2>
+            <p class="text-gray-700 mb-4">
+                Page replacement algorithms are essential in operating systems to decide which memory pages to swap out when new pages need to be loaded into memory. These algorithms aim to minimize page faults and optimize system performance.
+            </p>
+            <p class="text-gray-700">
+                Our simulator helps visualize three fundamental page replacement algorithms: FIFO (First-In-First-Out), LRU (Least Recently Used), and ESC (Enhanced Second Chance). Below you'll find detailed explanations of each algorithm.
+            </p>
+        </section>
+        
+        <div class="flex mb-6 bg-gray-100 rounded-lg p-1">
+            <button class="tab-button active py-2 px-4 rounded-md font-medium" data-tab="fifo">FIFO</button>
+            <button class="tab-button py-2 px-4 rounded-md font-medium" data-tab="lru">LRU</button>
+            <button class="tab-button py-2 px-4 rounded-md font-medium" data-tab="esc">ESC</button>
+        </div>
+        
+        <div id="tab-content">
+            <!-- FIFO Tab Content -->
+            <div id="fifo-tab" class="tab-content active">
+                <section class="bg-white rounded-lg shadow-sm p-6 mb-6 algorithm-card">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-2/3">
+                            <h3 class="text-xl font-semibold text-blue-600 mb-3">FIFO (First-In-First-Out)</h3>
+                            <p class="text-gray-700 mb-4">
+                                The FIFO algorithm replaces the oldest page in memory, following a simple queue-based approach. When a new page needs to be loaded and all frames are occupied, the page that has been in memory the longest is replaced.
+                            </p>
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                                <h4 class="font-semibold text-blue-700 mb-2">How it works:</h4>
+                                <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                                    <li>New pages are added to the tail of the queue</li>
+                                    <li>When a page fault occurs, the page at the head is replaced</li>
+                                    <li>The newly loaded page is added to the tail</li>
+                                </ol>
+                            </div>
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                                <h4 class="font-semibold text-yellow-700 mb-2">Characteristics:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                                    <li>Simple to implement (uses a queue)</li>
+                                    <li>Low overhead</li>
+                                    <li>May suffer from Belady's anomaly (more frames can lead to more page faults)</li>
+                                    <li>Doesn't consider page usage frequency or recency</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="md:w-1/3">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-800 mb-3">Example Scenario</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">1</div>
+                                        <span class="text-sm">Page 1 loaded</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">2</div>
+                                        <span class="text-sm">Page 2 loaded</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">3</div>
+                                        <span class="text-sm">Page 3 loaded</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-2">4</div>
+                                        <span class="text-sm">Page 4 replaces Page 1</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-2">
+                                        (Assuming 3 frames and reference string: 1, 2, 3, 4, 1)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- LRU Tab Content -->
+            <div id="lru-tab" class="tab-content hidden">
+                <section class="bg-white rounded-lg shadow-sm p-6 mb-6 algorithm-card">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-2/3">
+                            <h3 class="text-xl font-semibold text-blue-600 mb-3">LRU (Least Recently Used)</h3>
+                            <p class="text-gray-700 mb-4">
+                                The LRU algorithm replaces the page that hasn't been used for the longest period of time. It's based on the principle of temporal locality - pages used recently are likely to be used again soon.
+                            </p>
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                                <h4 class="font-semibold text-blue-700 mb-2">How it works:</h4>
+                                <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                                    <li>Each page access updates its "last used" timestamp</li>
+                                    <li>When a page fault occurs, the page with the oldest timestamp is replaced</li>
+                                    <li>New pages or accessed pages move to the "most recently used" position</li>
+                                </ol>
+                            </div>
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                                <h4 class="font-semibold text-yellow-700 mb-2">Characteristics:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                                    <li>More complex to implement than FIFO</li>
+                                    <li>Generally better performance than FIFO</li>
+                                    <li>Doesn't suffer from Belady's anomaly</li>
+                                    <li>Requires maintaining usage history (can be hardware-assisted)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="md:w-1/3">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-800 mb-3">Example Scenario</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">1</div>
+                                        <span class="text-sm">Page 1 loaded</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">2</div>
+                                        <span class="text-sm">Page 2 loaded</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">3</div>
+                                        <span class="text-sm">Page 3 loaded</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">1</div>
+                                        <span class="text-sm">Page 1 accessed again</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-2">4</div>
+                                        <span class="text-sm">Page 4 replaces Page 2</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-2">
+                                        (Assuming 3 frames and reference string: 1, 2, 3, 1, 4)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- ESC Tab Content -->
+            <div id="esc-tab" class="tab-content hidden">
+                <section class="bg-white rounded-lg shadow-sm p-6 mb-6 algorithm-card">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-2/3">
+                            <h3 class="text-xl font-semibold text-blue-600 mb-3">ESC (Enhanced Second Chance)</h3>
+                            <p class="text-gray-700 mb-4">
+                                The Enhanced Second Chance algorithm is a more sophisticated version of the Clock algorithm that considers both reference and modify bits to make replacement decisions. It's commonly used in practical systems.
+                            </p>
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                                <h4 class="font-semibold text-blue-700 mb-2">How it works:</h4>
+                                <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                                    <li>Each page has a reference bit (R) and modify bit (M)</li>
+                                    <li>Pages are classified into four categories: (0,0), (0,1), (1,0), (1,1)</li>
+                                    <li>The algorithm scans pages in a circular fashion (like a clock)</li>
+                                    <li>It looks for a page with (0,0) first, then (0,1), etc.</li>
+                                    <li>During scan, R bits are cleared to identify pages not recently used</li>
+                                </ol>
+                            </div>
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                                <h4 class="font-semibold text-yellow-700 mb-2">Characteristics:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                                    <li>Approximates LRU with less overhead</li>
+                                    <li>Considers both usage and modification status</li>
+                                    <li>Good balance between performance and implementation complexity</li>
+                                    <li>Commonly used in real operating systems</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="md:w-1/3">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-semibold text-gray-800 mb-3">Example Scenario</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">1</div>
+                                        <span class="text-sm">Page 1 loaded (R=1, M=0)</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">2</div>
+                                        <span class="text-sm">Page 2 loaded (R=1, M=1)</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">3</div>
+                                        <span class="text-sm">Page 3 loaded (R=0, M=0)</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-2">4</div>
+                                        <span class="text-sm">Page 4 replaces Page 3</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-2">
+                                        (Assuming 3 frames and Page 3 is (0,0))
+                                    </div>
+                                </div>
+                                <div class="mt-4 p-3 bg-blue-50 rounded">
+                                    <h5 class="font-medium text-sm mb-1">Bit Meanings:</h5>
+                                    <div class="grid grid-cols-2 gap-1 text-xs">
+                                        <div><span class="font-semibold">(0,0):</span> Not used, not modified</div>
+                                        <div><span class="font-semibold">(0,1):</span> Not used, modified</div>
+                                        <div><span class="font-semibold">(1,0):</span> Used, not modified</div>
+                                        <div><span class="font-semibold">(1,1):</span> Used and modified</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        
+        <section class="bg-white rounded-lg shadow-sm p-6 animate-fade-in">
+            <h2 class="text-xl font-semibold text-blue-600 mb-4">Comparing the Algorithms</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Algorithm</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Implementation Complexity</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Performance</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Belady's Anomaly</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Practical Use</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">FIFO</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Low (queue)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Moderate</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Yes</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Simple systems</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">LRU</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">High (timestamps/counters)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Good</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">No</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Theoretical benchmark</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">ESC</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Moderate (clock algorithm)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Very Good</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">No</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Real operating systems</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-gray-100 py-4">
+        <div class="max-w-6xl mx-auto px-4 text-center text-gray-600">
+            <p>© 2025 Page Replacement Simulator. All rights reserved.</p>
+            <a href="index.html" class="text-blue-600 hover:underline">Back to Simulator</a>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.add('hidden'));
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = button.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

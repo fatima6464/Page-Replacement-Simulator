@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Replacement Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-pop-in { animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out; }
+        .animate-pulse { animation: pulse 0.5s ease-in-out; }
+        .ref-bit {
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 0.65rem;
+            color: #4b5563;
+            background: #e5e7eb;
+            border-radius: 3px;
+            padding: 1px 4px;
+        }
+        .page-cell {
+            position: relative;
+            min-width: 50px;
+            height: 40px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin: 0 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .pointer {
+            border: 2px solid #fbbf24 !important;
+            box-shadow: 0 0 0 2px #fef3c7;
+        }
+        .output-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+        .hit { background: #BBF7D0; }
+        .miss { background: #FECACA; }
+        .replaced { background: #FEF9C3; }
+        /* NEW: Sticky Next Step button styles */
+        .sticky-next-step {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: none; /* Initially hidden */
+        }
+        .sticky-next-step.show {
+            display: block; /* Shown after first step click */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+    <header class="bg-blue-600 text-white py-6">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Page Replacement Simulator</h1>
+                <p class="text-sm">Visualize FIFO, LRU, and ESC Algorithms</p>
+            </div>
+            <nav>
+                <a href="index.html" class="text-white hover:underline mr-4">Home</a>
+                <a href="about.html" class="text-white hover:underline">About</a>
+            </nav>
+        </div>
+    </header>
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <section class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-600 mb-4">Configure Simulation</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="select-algorithm" class="block text-sm font-medium text-gray-700 mb-1">Algorithm</label>
+                    <select id="select-algorithm" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="none">Select Algorithm</option>
+                        <option value="FIFO">FIFO</option>
+                        <option value="LRU">LRU</option>
+                        <option value="ESC">Enhanced Second Chance</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="num-of-frames" class="block text-sm font-medium text-gray-700 mb-1">Number of Frames (1-10)</label>
+                    <input type="number" id="num-of-frames" min="1" max="10" value="3" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="ref-string" class="block text-sm font-medium text-gray-700 mb-1">Page References (e.g., 1,2,3)</label>
+                    <input type="text" id="ref-string" value="1,2,3,2,4,1,5,2,1,2,3,4,5" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+            <div class="mt-4 flex gap-2">
+                <button id="gen-ref" class="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Generate Random Reference String">Generate Random</button>
+                <button id="run-all-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Run Full Simulation">Run All</button>
+                <button id="step-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Next Step">Step</button>
+                <button id="reset-btn" class="bg-gray-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2" aria-label="Reset Simulation">Reset</button>
+            </div>
+            <div id="error-message" class="mt-2 text-red-600 text-sm"></div>
+        </section>
+        <!-- NEW: Sticky Next Step button -->
+        <button id="next-step-btn" class="sticky-next-step bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Next Step">Next Step</button>
+        <section class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <div class="mb-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Key:</h3>
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 bg-green-200 border border-green-800 mr-2"></span>
+                        <span class="text-sm text-gray-700">Hit (Page in memory)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 bg-red-200 border border-red-800 mr-2"></span>
+                        <span class="text-sm text-gray-700">Miss (Page Fault)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 bg-yellow-200 border border-yellow-800 mr-2"></span>
+                        <span class="text-sm text-gray-700">Replaced Page</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="w-4 h-4 border-2 border-amber-600 mr-2"></span>
+                        <span class="text-sm text-gray-700">Pointer (ESC)</span>
+                    </div>
+                </div>
+            </div>
+            <h2 class="text-xl font-semibold text-blue-600 mb-4">Simulation Timeline</h2>
+            <div id="timeline" class="flex flex-wrap gap-2"></div>
+        </section>
+        <section class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-600 mb-4">Simulation Output</h2>
+            <div id="output" class="output-container"></div>
+        </section>
+        <section class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-600 mb-4">Summary</h2>
+            <div id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+        </section>
+        <section class="bg-gray-100 rounded-lg shadow-sm p-6 mb-6 hidden" id="explanation-card">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-blue-600">Step By Step Explanation</h2>
+                <button id="toggle-explanation" class="text-blue-600 hover:text-blue-700 text-sm font-medium" aria-label="Toggle Explanation">Hide</button>
+            </div>
+            <div id="explanation" class="text-gray-700"></div>
+        </section>
+    </main>
+    <footer class="bg-gray-100 py-4">
+        <div class="max-w-6xl mx-auto px-4 text-center text-gray-600">
+            <p>© 2025 Page Replacement Simulator. All rights reserved.</p>
+            <a href="about.html" class="text-blue-600 hover:underline">About</a>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
