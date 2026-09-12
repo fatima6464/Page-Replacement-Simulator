@@ -41,6 +41,9 @@ Page replacement is a core Operating Systems concept, but it's easy to lose trac
 | Logic | Vanilla JavaScript (no frameworks) |
 | Pages | `index.html` (landing page), `simulator.html` (main simulator), `about.html` (algorithm details) |
 
+<img width="1920" height="2400" alt="image" src="https://github.com/user-attachments/assets/338e6cc3-359b-4a34-953a-fb9a0790383a" />
+
+
 ## 📁 Project Structure
 
 ```
