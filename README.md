@@ -67,6 +67,9 @@ cd page-replacement-simulator
 open index.html   # or simulator.html
 ```
 
+<img width="707" height="778" alt="image" src="https://github.com/user-attachments/assets/f1e83461-ce33-41ca-8156-68c7a07f9fed" />
+
+
 ## 🕹️ Usage
 
 1. Select an algorithm (FIFO, LRU, or ESC)
